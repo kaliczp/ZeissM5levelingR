@@ -28,6 +28,15 @@ read.ZEISSM5leveling <- function(file) {
     stopifnot(as.numeric(substr(raw.csak[,1],30,31)) == 2)
     ## Remove first row with line start parameters
     raw.csak <- raw.csak[-1,]
+    ## Test unit and code
+    stopifnot(substr(raw.csak[1,"V6"],1,1) == "Z",
+              substr(raw.csak[1,"V6"],19,22) == "m   ")
+    ## Start point height
+    Height.at.start <- as.numeric(substr(raw.csak[1,"V6"],4,17))
+    ## End point height
+    Height.at.end <- as.numeric(substr(raw.csak[nrow(raw.csak)-2,"V6"],4,17))
+    ## Calculated end point height
+    Height.at.end.calc <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V6"],4,17))
     ## Rowumbers of rows with measured data
     meres.row <- grep("KD1",raw.csak[,1])
     csak.meas <- raw.csak[meres.row,]
