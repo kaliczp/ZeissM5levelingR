@@ -20,7 +20,7 @@ read.ZEISSM5leveling <- function(file) {
     ## Delete Adr column
     raw.csak <- raw.csak[,-1]
     ## Rowumbers of rows with measured data
-    meres.row <- grep("KD1",raw.csak[,3])
+    meres.row <- grep("KD1",raw.csak[,1])
     csak.meas <- raw.csak[meres.row,]
-    data.frame(code = substr(csak.meas[,4],1,2), diff = as.numeric(substr(csak.meas[,4],12,17)))
+    data.frame(code = substr(csak.meas[,2],1,2), diff = as.numeric(substr(csak.meas[,2],12,17)))
 }
