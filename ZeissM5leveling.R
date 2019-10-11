@@ -17,6 +17,8 @@ read.ZEISSM5leveling <- function(file) {
     ## Adr column contains only memory row numbers?
     stopifnot(substr(raw.csak[,1],1,3) == "Adr")
     row.names(raw.csak) <- as.numeric(substr(raw.csak[,1],5,9))
+    ## Delete Adr column
+    raw.csak <- raw.csak[,-1]
     ## Rowumbers of rows with measured data
     meres.row <- grep("KD1",raw.csak[,3])
     csak.meas <- raw.csak[meres.row,]
