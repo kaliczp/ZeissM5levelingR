@@ -19,6 +19,15 @@ read.ZEISSM5leveling <- function(file) {
     row.names(raw.csak) <- as.numeric(substr(raw.csak[,1],5,9))
     ## Delete Adr column
     raw.csak <- raw.csak[,-1]
+    ## Is it a levelling line? Used only backward forward only? Tests.
+    stopifnot(substr(raw.csak[1,1],5,14) == "Start-Line",
+              substr(raw.csak[1,1],24,25) == "BF")
+    ## Store line number
+    Line.nr <- as.numeric(substr(raw.csak[1,1],30,31))
+    ## Identical line number, if not separate different
+    stopifnot(as.numeric(substr(raw.csak[,1],30,31)) == 2)
+    ## Remove first row with line start parameters
+    raw.csak <- raw.csak[-1,]
     ## Rowumbers of rows with measured data
     meres.row <- grep("KD1",raw.csak[,1])
     csak.meas <- raw.csak[meres.row,]
