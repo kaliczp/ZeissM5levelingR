@@ -61,6 +61,12 @@ read.ZEISSM5leveling <- function(file) {
     ## Set the right sign for fore-, and intermediate sights
     Diff[D.code == "Rf"] <- Diff[D.code == "Rf"] * -1
     Diff[D.code == "Rz"] <- Diff[D.code == "Rz"] * -1
+    ## Intrument and calculated difference comparison
+    Intsr.calc.diff <- abs(sum(Diff[!D.code == "Rz"])) - Error.calc
+    ## Warning if error larger than 2 mm.
+    if(Intsr.calc.diff > 0.002) {
+        warning(paste("Check the difference between instrument and R", Intsr.calc.diff, "m"))
+    }
     Raw.df <- data.frame(
         Pnr = as.numeric(substr(raw.csak[,1],5,12)),
         D.code = D.code,
