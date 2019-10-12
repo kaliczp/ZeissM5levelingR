@@ -37,9 +37,9 @@ read.ZEISSM5leveling <- function(file) {
     ## Start point height
     Height.at.start <- as.numeric(substr(raw.csak[1,"V6"],4,17))
     ## End point height
-    Height.at.end <- as.numeric(substr(raw.csak[nrow(raw.csak)-2,"V6"],4,17))
+    Height.at.end <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V6"],4,17))
     ## Calculated end point height
-    Height.at.end.calc <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V6"],4,17))
+    Height.at.end.calc <- as.numeric(substr(raw.csak[nrow(raw.csak),"V6"],4,17))
     ## Rownumbers of text objects (TO)
     Text.row.numbers <- grep("TO",raw.csak[,1])
     ## Save text objects
