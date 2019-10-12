@@ -46,6 +46,10 @@ read.ZEISSM5leveling <- function(file) {
     Diff.backward <- as.numeric(substr(raw.csak[nrow(raw.csak),"V4"],4,17))
     ## Calculated error
     Error.calc <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V5"],4,17))
+    ## Summarize data for output
+    Instr.table <- data.frame(Height.at.start, Height.at.end,
+                              Height.at.end.calc, Error.calc)
+    Instr.sum <- data.frame(Diff.forward, Diff.backward)
     ## Remove start and end rows
     raw.csak <- raw.csak[-c(1,nrow(raw.csak)-1,nrow(raw.csak)),]
     ## Rownumbers of text objects (TO)
