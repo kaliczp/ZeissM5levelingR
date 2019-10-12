@@ -26,8 +26,11 @@ read.ZEISSM5leveling <- function(file) {
     Line.nr <- as.numeric(substr(raw.csak[1,1],30,31))
     ## Identical line number, if not separate different
     stopifnot(as.numeric(substr(raw.csak[,1],30,31)) == 2)
+    ## Is leveling line completed? Test.
+    stopifnot(substr(raw.csak[nrow(raw.csak),1],5,12) == "End-Line")
     ## Remove first row with line start parameters
-    raw.csak <- raw.csak[-1,]
+    ## and last row
+    raw.csak <- raw.csak[-c(1,nrow(raw.csak)),]
     ## Test unit and code
     stopifnot(substr(raw.csak[1,"V6"],1,1) == "Z",
               substr(raw.csak[1,"V6"],19,22) == "m   ")
