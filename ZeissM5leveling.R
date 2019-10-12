@@ -40,6 +40,14 @@ read.ZEISSM5leveling <- function(file) {
     Height.at.end <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V6"],4,17))
     ## Calculated end point height
     Height.at.end.calc <- as.numeric(substr(raw.csak[nrow(raw.csak),"V6"],4,17))
+    ## Calculated forward differences
+    Diff.forward <- as.numeric(substr(raw.csak[nrow(raw.csak),"V5"],4,17))
+    ## Calculated backward differences
+    Diff.backward <- as.numeric(substr(raw.csak[nrow(raw.csak),"V4"],4,17))
+    ## Calculated error
+    Error.calc <- as.numeric(substr(raw.csak[nrow(raw.csak)-1,"V5"],4,17))
+    ## Remove start and end rows
+    raw.csak <- raw.csak[-c(1,nrow(raw.csak)-1,nrow(raw.csak)),]
     ## Rownumbers of text objects (TO)
     Text.row.numbers <- grep("TO",raw.csak[,1])
     ## Save text objects
