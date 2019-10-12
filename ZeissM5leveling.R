@@ -71,6 +71,7 @@ read.ZEISSM5leveling <- function(file) {
     if(Intsr.calc.diff > 0.002) {
         warning(paste("Check the difference between instrument and R", Intsr.calc.diff, "m"))
     }
+    ## Compile dataframe based on instrument measurements
     Raw.df <- data.frame(
         Pnr = as.numeric(substr(raw.csak[,1],5,12)),
         D.code = D.code,
@@ -78,4 +79,29 @@ read.ZEISSM5leveling <- function(file) {
         HD = as.numeric(substr(raw.csak[,3],12,17)),
         sR = as.numeric(substr(raw.csak[,4],12,17))
     )
+    ## Calculate height for individual points
+    ## Check individual points
+    Nr.points <- c(grep("Rf",Raw.df[,"D.code"]), grep("Rz",Raw.df[,"D.code"]))
+    ## Based on the length create data.frame for result
+    Length.result <- length(Nr.points)
+    Result <- data.frame(Pnr=integer(Length.result), Height=numeric(Length.result))
+    ## Fill data.frame with point nr and height
+    for(tti in 1:Length.result) {
+        Result[tti, "Pnr"] <- Raw.df[Nr.points[tti], "Pnr"]
+        Raw.only <- Raw.df[1:Nr.points[tti],]
+        ## If there is some inermediate points exclude them
+        if(any(Raw.only[, "D.code"] == "Rz")) {
+            Diffs.with.inter <- Raw.only[-nrow(Raw.only), "Diff"]
+            Interm.line <- Raw.only[-nrow(Raw.only),"D.code"] == "Rz"
+            Diffs.without.inter <- Diffs.with.inter[!Interm.line]
+            Diffs.only  <- c(Diffs.without.inter, Raw.df[Nr.points[tti], "Diff"])
+        } else {
+            Diffs.only <- Raw.only[, "Diff"]
+        }
+        ## Calculate height of the actual point
+        Result[tti, "Height"] <- sum(c(Height.at.start, Diffs.only))
+    }
+    ## Compile list of results
+    list(Result = Result, Raw.Table = Raw.df,
+         Instr.table = Instr.table, Instr.sum = Instr.sum)
 }
