@@ -1,0 +1,6 @@
+#+TITLE: Process levelling in ZEISS M5 format
+
+* TODOS
+** TODO Case of non loop
+The script is for loop levelling. Fit for non loop.
+At least compare the first point and benchmarking point numbers.
