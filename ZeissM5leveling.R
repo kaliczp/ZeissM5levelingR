@@ -56,9 +56,14 @@ read.ZEISSM5leveling <- function(file) {
     raw.csak <- raw.csak[-Text.row.numbers,]
     ## Sustract differences from plan of sight
     Diff <-  as.numeric(substr(raw.csak[,2],12,17))
+    ## Collect fore-, back-, inermediatesight codes
+    D.code  <- substr(raw.csak[,2],1,2)
+    ## Set the right sign for fore-, and intermediate sights
+    Diff[D.code == "Rf"] <- Diff[D.code == "Rf"] * -1
+    Diff[D.code == "Rz"] <- Diff[D.code == "Rz"] * -1
     Raw.df <- data.frame(
         Pnr = as.numeric(substr(raw.csak[,1],5,12)),
-        D.code = substr(raw.csak[,2],1,2),
+        D.code = D.code,
         Diff = Diff,
         HD = as.numeric(substr(raw.csak[,3],12,17)),
         sR = as.numeric(substr(raw.csak[,4],12,17))
