@@ -54,8 +54,13 @@ read.ZEISSM5leveling <- function(file) {
     Text.objects <- raw.csak[Text.row.numbers,]
     ## Remove text objects from data base
     raw.csak <- raw.csak[-Text.row.numbers,]
-    ## Rowumbers of rows with measured data
-    meres.row <- grep("KD1",raw.csak[,1])
-    csak.meas <- raw.csak[meres.row,]
-    data.frame(code = substr(csak.meas[,2],1,2), diff = as.numeric(substr(csak.meas[,2],12,17)))
+    ## Sustract differences from plan of sight
+    Diff <-  as.numeric(substr(raw.csak[,2],12,17))
+    Raw.df <- data.frame(
+        Pnr = as.numeric(substr(raw.csak[,1],5,12)),
+        D.code = substr(raw.csak[,2],1,2),
+        Diff = Diff,
+        HD = as.numeric(substr(raw.csak[,3],12,17)),
+        sR = as.numeric(substr(raw.csak[,4],12,17))
+    )
 }
